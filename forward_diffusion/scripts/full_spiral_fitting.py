@@ -55,18 +55,18 @@ for i in range(19, 2, -1):
         mse = float(mse)
         history.append(mse)
 
-    #
+        # torch.save(model, '../models3/' + '_' + str(i)+'_'+ str(i-1)+ '.pt')
 
-    #N = 40
-    #X1_plot, X2_plot = np.meshgrid(np.linspace(-1., 1., N), np.linspace(-1., 1., N))
-    #X_plot = torch.tensor(np.stack([X1_plot.reshape(N ** 2), X2_plot.reshape(N ** 2)]), dtype=torch.float32).T
-    #Y_plot = model(X_plot).detach().numpy()
-    #X_plot = X_plot.detach().numpy()
+    N = 40
+    X1_plot, X2_plot = np.meshgrid(np.linspace(-1., 1., N), np.linspace(-1., 1., N))
+    X_plot = torch.tensor(np.stack([X1_plot.reshape(N ** 2), X2_plot.reshape(N ** 2)]), dtype=torch.float32).T
+    Y_plot = model(X_plot).detach().numpy()
+    X_plot = X_plot.detach().numpy()
     # y_numpy = y_pred_save.detach().numpy()
     # print(type(y_numpy))
     # x_numpy = X_test.detach().numpy()
-    #plt.quiver(X_plot[:, 0], X_plot[:, 1], Y_plot[:, 0], Y_plot[:, 1])
-    #plt.plot(X_plot[:, 0], X_plot[:, 1], '.')
+    # plt.quiver(X_plot[:, 0], X_plot[:, 1], Y_plot[:, 0], Y_plot[:, 1])
+    # plt.plot(X_plot[:, 0], X_plot[:, 1], '.')
 
     # plt.show()
 
@@ -75,7 +75,7 @@ for i in range(19, 2, -1):
     plt.quiver(X_test[:, 0], X_test[:, 1], y_test[:, 0], y_test[:, 1])
     plt.quiver(X_test[:, 0], X_test[:, 1], Y_plot[:, 0], Y_plot[:, 1], color='red', alpha=0.5)
     plt.plot(X_test[:, 0], X_test[:, 1], '.')
-    plt.plot(y_test[:, 0], y_test[:, 1], '.')
+    # plt.plot(y_test[:, 0], y_test[:, 1], '.')
 
 plt.show()
 
