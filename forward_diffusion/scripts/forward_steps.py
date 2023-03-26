@@ -29,9 +29,9 @@ def add_noise_and_print( mu, std,dist):
         plt.xlim([-1.5, 1.5])
         plt.ylim([-1.5, 1.5])
         plt.show()
-        plt.savefig('../images/png/step' +str(i) + '.png')
+        plt.savefig('../models3/data/step' +str(i) + '.png')
         plt.clf()
-        np.savetxt('../images/txt/step' + str(i) + '.txt', np.c_[noisey_dist_x,noisey_dist_y])
+        np.savetxt('..//models3/data/step' + str(i) + '.csv', np.c_[noisey_dist_x,noisey_dist_y])
 
 
 

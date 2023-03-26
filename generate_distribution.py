@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from my_metropolis import metropolis
 from sammys_spiral import spiral
 
-dist = metropolis(spiral,0.0,0.0,0.1,10000,10)
+dist = metropolis(spiral,0.0,0.0,0.1,100000,10)
 plt.scatter(dist[:,0], dist[:,1], alpha=0.1)
 plt.show()
 
