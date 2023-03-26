@@ -18,7 +18,7 @@ noise= torch.Tensor(noise)
 #Y = X.clone().detach()
 Y = noise.clone().detach()
 
-for i in range(19,2,-1):
+for i in range(19, 2, -1):
     model = nn.Sequential(
         nn.Linear(2, 24),
         nn.ReLU(),
