@@ -4,9 +4,13 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, random_split
 
-data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step4.csv"
-data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step5.csv"
+
+data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step7.csv"
+data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step6.csv"
+
 
 spiral_data_numpy = np.loadtxt(data_path_train, np.float32)
 spiral_answer_numpy = np.loadtxt(data_path_answer, np.float32)
@@ -15,7 +19,7 @@ Train_data = torch.from_numpy(spiral_data_numpy)
 Answer_data = torch.from_numpy(spiral_answer_numpy)
 
 X, y = Train_data, Answer_data
-n_epochs = 150
+n_epochs = 200
 history = []
 y_pred_save = []
 
@@ -29,8 +33,6 @@ X_train = X_train.clone().detach()
 y_train = y_train.clone().detach()
 X_test = X_test.clone().detach()
 y_test = y_test.clone().detach()
-
-
 
 model = nn.Sequential(
     nn.Linear(2, 24),
@@ -66,12 +68,26 @@ y_numpy = y_pred_save.detach().numpy()
 x_numpy = X_test.detach().numpy()
 
 
-# plt.plot(history)
-# plt.show()
+plt.semilogy(history)
+plt.show()
 
 # plt.scatter(y_numpy[:,0],y_numpy[:,1])
 # plt.show()
 
-plt.quiver(x_numpy[:, 0], x_numpy[:, 1], y_numpy[:, 0], y_numpy[:, 1])
-plt.plot(x_numpy[:, 0], x_numpy[:, 1], '.')
+def arrow_plot(ax: plt.Axes, X, y, n=None, color='k'):
+    if n is None:
+        n = X.shape[0]
+    for i in range(n):
+        dx = y[i,0] - X[i,0]
+        dy = y[i, 1] - X[i, 1]
+        ax.arrow(X[i,0], X[i,1], dx, dy, color=color)
+
+
+n_show = 1000
+fig = plt.figure()
+ax = plt.gca()
+ax.plot(x_numpy[:n_show, 0], x_numpy[:n_show, 1], '.')
+ax.plot(y_numpy[:n_show, 0], y_numpy[:n_show, 1], '.')
+arrow_plot(ax, x_numpy, y_numpy, n=n_show)
+# plt.quiver(x_numpy[:n_show, 0], x_numpy[:n_show, 1], y_numpy[:n_show, 0]-x_numpy[:n_show, 0], y_numpy[:n_show, 1]-x_numpy[:n_show, 1])
 plt.show()
