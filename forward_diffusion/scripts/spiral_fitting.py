@@ -7,10 +7,8 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data import DataLoader, Dataset, random_split
 
-
-data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step7.csv"
-data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step6.csv"
-
+data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step3.csv"
+data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step2.csv"
 
 spiral_data_numpy = np.loadtxt(data_path_train, np.float32)
 spiral_answer_numpy = np.loadtxt(data_path_answer, np.float32)
@@ -19,9 +17,10 @@ Train_data = torch.from_numpy(spiral_data_numpy)
 Answer_data = torch.from_numpy(spiral_answer_numpy)
 
 X, y = Train_data, Answer_data
-n_epochs = 200
+n_epochs = 1000
 history = []
 y_pred_save = []
+val = []
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, shuffle=True)
 # X_train = torch.tensor(X_train, dtype=torch.float32)
@@ -34,6 +33,8 @@ y_train = y_train.clone().detach()
 X_test = X_test.clone().detach()
 y_test = y_test.clone().detach()
 
+loader = DataLoader(list(zip(X_train, y_train)), batch_size=100000)
+
 model = nn.Sequential(
     nn.Linear(2, 24),
     nn.ReLU(),
@@ -44,32 +45,38 @@ model = nn.Sequential(
     nn.Linear(6, 2)
 )
 
-
 loss_fn = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr = 0.0055)
-
+optimizer = optim.Adam(model.parameters(), lr=0.0055)
+val_loss = nn.MSELoss()
 
 for epoch in range(n_epochs):
-    model.train()
-    y_pred = model(X_train)
-    loss = loss_fn(y_pred, y_train)
-    optimizer.zero_grad()
-    loss.backward()
-    # update weights
-    optimizer.step()
-    model.eval()
-    y_pred = model(X_test)
-    mse = loss_fn(y_pred, y_test)
-    mse = float(mse)
-    history.append(mse)
-    y_pred_save = y_pred
+    for x_batch, y_batch in loader:
+        model.train(True)
+        y_pred = model(x_batch)
+        loss = loss_fn(y_pred, y_batch)
+        optimizer.zero_grad()
+        loss.backward()
+        # update weights
+        optimizer.step()
+        loss = float(loss)
+        val.append(loss)
 
-y_numpy = y_pred_save.detach().numpy()
-x_numpy = X_test.detach().numpy()
+        model.eval()
+        y_pred = model(X_test)
+        mse = loss_fn(y_pred, y_test)
+        mse = float(mse)
+        history.append(mse)
+        y_pred_save = y_pred
 
+# y_numpy = y_pred_save.detach().numpy()
+# x_numpy = X_test.detach().numpy()
+y_numpy = model(x_batch).detach().numpy()
+x_numpy = x_batch.detach().numpy()
 
+plt.semilogy(val)
 plt.semilogy(history)
 plt.show()
+
 
 # plt.scatter(y_numpy[:,0],y_numpy[:,1])
 # plt.show()
@@ -78,16 +85,18 @@ def arrow_plot(ax: plt.Axes, X, y, n=None, color='k'):
     if n is None:
         n = X.shape[0]
     for i in range(n):
-        dx = y[i,0] - X[i,0]
+        dx = y[i, 0] - X[i, 0]
         dy = y[i, 1] - X[i, 1]
-        ax.arrow(X[i,0], X[i,1], dx, dy, color=color)
+        ax.arrow(X[i, 0], X[i, 1], dx, dy, color=color)
 
 
 n_show = 1000
 fig = plt.figure()
 ax = plt.gca()
-ax.plot(x_numpy[:n_show, 0], x_numpy[:n_show, 1], '.')
-ax.plot(y_numpy[:n_show, 0], y_numpy[:n_show, 1], '.')
-arrow_plot(ax, x_numpy, y_numpy, n=n_show)
-# plt.quiver(x_numpy[:n_show, 0], x_numpy[:n_show, 1], y_numpy[:n_show, 0]-x_numpy[:n_show, 0], y_numpy[:n_show, 1]-x_numpy[:n_show, 1])
+ax.plot(x_numpy[:n_show, 0], x_numpy[:n_show, 1], '.', color='k')
+# ax.plot(y_test[:n_show, 0], y_test[:n_show, 1], '.', color = 'b')
+ax.plot(y_train[:n_show, 0], y_train[:n_show, 1], '.', color='b')
+arrow_plot(ax, x_numpy, y_numpy, n=n_show, color='r')
+# arrow_plot(ax, x_numpy, y_test, n=n_show, color='k')
+arrow_plot(ax, x_numpy, y_train, n=n_show, color='k')
 plt.show()

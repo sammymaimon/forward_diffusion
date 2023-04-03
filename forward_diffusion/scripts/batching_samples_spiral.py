@@ -6,6 +6,20 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader, Dataset, random_split
 
+# data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step5.csv"
+# data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step6.csv"
+
+# data_path_train = DataLoader("/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step5.csv")
+# data_path_answer = DataLoader("/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step6.csv")
+# print(data_path_answer)
+#
+# spiral_data_numpy = np.loadtxt(data_path_train, np.float32)
+# # spiral_answer_numpy = np.loadtxt(data_path_answer, np.float32)
+#
+# Train_data = torch.from_numpy(spiral_data_numpy)
+# Answer_data = torch.from_numpy(spiral_answer_numpy)
+#
+# X, y = Train_data, Answer_data
 
 X = np.loadtxt("/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step5.csv")
 y = np.loadtxt("/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step6.csv")
