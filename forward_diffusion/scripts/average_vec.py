@@ -2,17 +2,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step2.csv"
-data = np.loadtxt(data_path_train)
+data_path_train1 = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step2.csv"
+data = np.loadtxt(data_path_train1)
+data_path_train2 = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step3.csv"
+data2 = np.loadtxt(data_path_train2)
 print(data)
 nx = []
 ny = []
 
+vec = (data - data2)
+print("this is vec", vec)
 
-# nx = np.zeros(len(data))
-# print(nx.shape)
-# ny = np.zeros(len(data))
-# print(ny.shape)
+# arrow = np.zeros(vec.shape[0])
+#
+# for i in range(vec.shape[0]):
+#     arrow[i] = np.sqrt((vec[i, 0] ** 2 + vec[i, 1] ** 2))
+#
+# print('this is arrow', arrow)
+#
+# data = np.array([(data[i, 0], data[i, 1], vec[i, 0], vec[i, 1]) for i in range(len(data))])
+# print(type(data))
+# print(data.shape)
+
 
 def min_max(data):
     x_min = data[:, 0].min()
@@ -37,22 +48,24 @@ def prep_for_bins(nx, ny, data):
 
 
 nx, ny = prep_for_bins(nx, ny, data)
-
-
 nx = np.dot(nx, 10)
 ny = np.dot(ny, 10)
+nx_ny = np.array([nx, ny]).T
+nx_ny_floor = np.floor(nx_ny)
+print(type(nx_ny_floor))
+
+floor_and_vec = np.array([(nx_ny_floor[i, 0], nx_ny_floor[i, 1], vec[i, 0], vec[i, 1]) for i in range(len(nx_ny_floor))])
 
 
-nx_ny= [nx,ny]
-nx_ny_floor= np.floor(nx_ny)
-print('this is', nx_ny_floor)
+bins_x = np.zeros((10, 10))
+bins_y = np.zeros((10, 10))
 
+print(type(bins_x))
 
-bins= np.zeros((10,10))
-print(bins)
+for i in range(len(floor_and_vec[0])):
+    x = floor_and_vec[i, 0]
+    y = floor_and_vec[i, 1]
+    bins_x[x, y] += floor_and_vec[i, 2]
+    bins_y[x, y] += floor_and_vec[i, 3]
 
-def average_vec(nx_ny, nx_ny_floor, bins):
-    for i in nx_ny_floor:
-
-
-
+print(bins_x)
