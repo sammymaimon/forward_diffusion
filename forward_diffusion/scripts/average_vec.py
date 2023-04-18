@@ -57,4 +57,5 @@ plt.figure()
 plt.imshow(bins_x)
 plt.figure()
 plt.imshow(average_movement)
+
 plt.show()
