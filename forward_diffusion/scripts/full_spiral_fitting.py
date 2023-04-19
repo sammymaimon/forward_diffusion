@@ -78,6 +78,7 @@ for i in range(19, 2, -1):
 
     # N = 40
     # X1_plot, X2_plot = np.meshgrid(np.linspace(-1., 1., N), np.linspace(-1., 1., N))
+    # print(X1_plot)
     # X_plot = torch.tensor(np.stack([X1_plot.reshape(N ** 2), X2_plot.reshape(N ** 2)]), dtype=torch.float32).T
     # Y_plot = model(X_plot).detach().numpy()
     # X_plot = X_plot.detach().numpy()
