@@ -23,7 +23,26 @@ model.eval()
 
 Y = model(X)
 Y_plot = (Y.clone().detach().numpy())
-print('this is Y_plot', Y_plot)
+
 plt.figure()
 plt.scatter(Y_plot[:, 0], Y_plot[:, 1], s=None)
+
+def arrow_plot(ax: plt.Axes, X, y, n=None, color='k'):
+    if n is None:
+        n = X.shape[0]
+    for i in range(n):
+        dx = y[i, 0] - X[i, 0]
+        dy = y[i, 1] - X[i, 1]
+        ax.arrow(X[i, 0], X[i, 1], dx, dy, color=color)
+
+
+n_show = 1000
+fig = plt.figure()
+ax = plt.gca()
+ax.plot(x_numpy[:n_show, 0], x_numpy[:n_show, 1], '.', color='k')
+# ax.plot(y_test[:n_show, 0], y_test[:n_show, 1], '.', color = 'b')
+ax.plot(y_train[:n_show, 0], y_train[:n_show, 1], '.', color='b')
+arrow_plot(ax, x_numpy, y_numpy, n=n_show, color='r')
+# arrow_plot(ax, x_numpy, y_test, n=n_show, color='k')
+arrow_plot(ax, x_numpy, y_train, n=n_show, color='k')
 plt.show()
