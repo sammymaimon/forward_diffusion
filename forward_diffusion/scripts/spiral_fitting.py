@@ -4,8 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, Dataset
-from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data import DataLoader
 
 data_path_train = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step3.csv"
 data_path_answer = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step2.csv"
@@ -93,7 +92,7 @@ def arrow_plot(ax: plt.Axes, X, y, n=None, color='k'):
 n_show = 1000
 fig = plt.figure()
 ax = plt.gca()
-ax.plot(x_numpy[:n_show, 0], x_numpy[:n_show, 1], '.', color='k')
+ax.plot(X[:n_show, 0], X[:n_show, 1], '.', color='k')
 # ax.plot(y_test[:n_show, 0], y_test[:n_show, 1], '.', color = 'b')
 ax.plot(y_train[:n_show, 0], y_train[:n_show, 1], '.', color='b')
 arrow_plot(ax, x_numpy, y_numpy, n=n_show, color='r')

@@ -50,12 +50,13 @@ for i in range(len(floor_and_vec[0])):
 
 bins_occ = bins_occ + EPSILON
 average_movement_x = bins_x / bins_occ
+average_movement_y= bins_y / bins_occ
 
-print(average_movement_x)
+# print(average_movement_x)
 
-plt.figure()
-plt.imshow(bins_x)
-plt.figure()
-plt.imshow(average_movement_x)
-
-plt.show()
+# plt.figure()
+# plt.imshow(bins_x)
+# plt.figure()
+# plt.imshow(average_movement_x)
+#
+# plt.show()
