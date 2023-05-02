@@ -36,7 +36,7 @@ for i in range(19, 2, -1):
     X_test = torch.tensor(X_test, dtype=torch.float32)
     y_test = torch.tensor(y_test, dtype=torch.float32)
 
-    n_epochs = 150
+    n_epochs = 200
     history = []
     # y_pred = []
 
