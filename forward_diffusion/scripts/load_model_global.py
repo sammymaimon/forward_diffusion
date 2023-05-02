@@ -18,12 +18,7 @@ for i in range(len(X)):
 
 
 print(X-X_shifted)
-# exit()
 
-# data_path_train1 = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step2.csv"
-# data = np.loadtxt(data_path_train1)
-# data_path_train2 = "/home/sammy/PycharmProjects/pythonProject/forward_diffusion/models3/data/step3.csv"
-# data2 = np.loadtxt(data_path_train2)
 X = torch.tensor(np.stack([X1_plot.reshape(N ** 2), X2_plot.reshape(N ** 2)]), dtype= torch.float32).T
 model = torch.load("../tests/model_tests/model_for_randomtest1.pt")
 model.eval()
