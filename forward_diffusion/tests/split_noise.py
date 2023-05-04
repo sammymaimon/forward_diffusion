@@ -11,6 +11,10 @@ mu = 0.02
 std = 2e-1
 noise = []
 
+#
+# X1_plot, X2_plot = np.meshgrid(np.linspace(-1., 1., N), np.linspace(-1., 1., N))
+# noise = (np.stack([X1_plot.reshape(N ** 2), X2_plot.reshape(N ** 2)])).T
+
 noise = np.array((np.random.normal(mu, std, N ** 2), np.random.normal(mu, std, N ** 2))).T
 noise_shifted = noise.copy()
 randvals = np.random.choice(len(noise), size=int(0.05 * len(noise)), replace=False)
@@ -26,9 +30,9 @@ for i in range(len(noise)):
     elif noise[i, 0] > 0:
         noise_shifted[i, 0] += 0.1
 
-# plt.scatter(noise[:,0],noise[:,1])
-# plt.scatter(noise_shifted[:,0],noise_shifted[:,1])
-# plt.show()
+plt.scatter(noise[:,0],noise[:,1])
+plt.scatter(noise_shifted[:,0],noise_shifted[:,1])
+plt.show()
 
 
 X, y = noise, noise_shifted
